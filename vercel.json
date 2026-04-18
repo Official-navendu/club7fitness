@@ -1,6 +1,13 @@
 {
+  "functions": {
+    "api/**/*.ts": {
+      "runtime": "nodejs18.x"
+    }
+  },
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/.*", "dest": "/index.html" }
+    {
+      "src": "/(.*)",
+      "dest": "/dist/server/entry.mjs"
+    }
   ]
 }
