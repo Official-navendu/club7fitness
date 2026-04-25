@@ -2,7 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { PageHero } from "@/components/sections/PageHero";
 import { ContactForm } from "@/components/sections/ContactForm";
 
-export const Route = createFileRoute("/contact2")({
+export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
       { title: "Contact — Club 7 Fitness" },

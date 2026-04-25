@@ -4,7 +4,7 @@ import { Equipment } from "@/components/sections/Equipment";
 import { Programs } from "@/components/sections/Programs";
 import { CTA } from "@/components/sections/CTA";
 
-export const Route = createFileRoute("/services2")({
+export const Route = createFileRoute("/services")({
   head: () => ({
     meta: [
       { title: "Services & Equipment — Club 7 Fitness" },

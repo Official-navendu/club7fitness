@@ -7,7 +7,7 @@ import { Trainers } from "@/components/sections/Trainers";
 import { useCounter } from "@/hooks/useCounter";
 import { fadeUp, stagger } from "@/utils/motion";
 
-export const Route = createFileRoute("/about2")({
+export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
       { title: "About — Club 7 Fitness" },
