@@ -18,7 +18,7 @@ const fadeLeft = {
   show: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
+    transition: { duration: 0.6, ease: "easeOut" as const },
   },
 };
 
@@ -27,7 +27,7 @@ const fadeRight = {
   show: {
     opacity: 1,
     x: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
+    transition: { duration: 0.6, ease: "easeOut" as const },
   },
 };
 
@@ -50,6 +50,10 @@ export function AboutPreview() {
             <img
               src={aboutImg}
               alt="Gym"
+              loading="lazy"
+              decoding="async"
+              width={570}
+              height={420}
               className="w-full h-[380px] md:h-[420px] object-cover transition-transform duration-500 hover:scale-105"
             />
           </div>
@@ -66,6 +70,10 @@ export function AboutPreview() {
                 <img
                   src={smallImg}
                   alt="gym small"
+                  loading="lazy"
+                  decoding="async"
+                  width={160}
+                  height={120}
                   className="rounded-xl h-[100px] sm:h-[120px] w-full object-cover"
                 />
               </div>

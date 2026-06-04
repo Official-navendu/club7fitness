@@ -32,20 +32,6 @@ const ITEMS = [
 
 export function Testimonials() {
   const [i, setI] = useState(0);
-  const [scrollDir, setScrollDir] = useState(1);
-
-  useEffect(() => {
-    let lastY = window.scrollY;
-
-    const handleScroll = () => {
-      const currentY = window.scrollY;
-      setScrollDir(currentY > lastY ? 1 : -1);
-      lastY = currentY;
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const next = () => setI((p) => (p + 1) % ITEMS.length);
   const prev = () => setI((p) => (p - 1 + ITEMS.length) % ITEMS.length);
@@ -67,17 +53,16 @@ export function Testimonials() {
           </p>
         </div>
 
-        {/* 🔥 CARD */}
+        {/* ===== CARD ===== */}
         <motion.div
-          key={scrollDir}
-          initial={{ opacity: 0, x: scrollDir === 1 ? 120 : -120 }}
-          whileInView={{ opacity: 1, x: 0 }}
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
           viewport={{ once: false, margin: "-100px" }}
           className="group relative rounded-3xl p-[2px] overflow-hidden"
         >
 
-          {/* 🔥 BORDER LOOP */}
+          {/* ===== BORDER LOOP ===== */}
           <div className="absolute inset-0 animate-borderMove bg-gradient-to-r from-primary via-[color:var(--primary-glow)] to-primary opacity-70" />
 
           {/* INNER CARD */}
@@ -90,6 +75,10 @@ export function Testimonials() {
                 <img
                   src={item.img}
                   alt={item.name}
+                  loading="lazy"
+                  decoding="async"
+                  width={240}
+                  height={300}
                   className="w-full h-full object-cover rounded-2xl shadow-elegant"
                 />
               </div>

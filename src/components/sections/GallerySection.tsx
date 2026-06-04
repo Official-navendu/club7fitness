@@ -53,6 +53,10 @@ export function GallerySection() {
                   <img
                     src={img}
                     alt="gallery"
+                    loading="lazy"
+                    decoding="async"
+                    width={280}
+                    height={200}
                     className="w-full h-auto object-cover rounded-2xl transition duration-500 group-hover:scale-105"
                   />
                 </div>

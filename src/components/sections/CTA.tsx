@@ -8,22 +8,33 @@ import ctaBg from "@/assets/images/cta.jpg";
 export function CTA() {
   const bgRef = useRef<HTMLDivElement>(null);
 
-  // 🔥 STRONG PARALLAX
+  // 🔥 STRONG PARALLAX (OPTIMIZED)
   useEffect(() => {
     const el = bgRef.current;
     if (!el) return;
 
-    const handleScroll = () => {
-      const rect = el.getBoundingClientRect();
-      const move = rect.top * 0.25;
+    let requestID: number;
+    let ticking = false;
 
-      el.style.transform = `translateY(${move}px) scale(1.15)`;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestID = requestAnimationFrame(() => {
+          const rect = el.getBoundingClientRect();
+          const move = rect.top * 0.25;
+          el.style.transform = `translateY(${move}px) scale(1.15)`;
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
 
     handleScroll();
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      cancelAnimationFrame(requestID);
+    };
   }, []);
 
   return (

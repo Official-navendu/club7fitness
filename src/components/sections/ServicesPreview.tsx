@@ -1,93 +1,188 @@
 import { motion } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import { Dumbbell, Heart, Users, Flame, Trophy, Timer } from "lucide-react";
+import { 
+  Music, 
+  Flame, 
+  Dumbbell, 
+  Users, 
+  Trophy, 
+  UserCheck,
+  ChevronRight
+} from "lucide-react";
 
-const SERVICES = [
-  { icon: Dumbbell, title: "Weight Training", desc: "Build strength with structured programs and pro coaching." },
-  { icon: Heart, title: "Cardio Studio", desc: "Top-tier treadmills, bikes and rowers for any pace." },
-  { icon: Users, title: "Personal Training", desc: "1-on-1 coaching tailored to your goals and lifestyle." },
-  { icon: Flame, title: "Fat Loss Programs", desc: "High-intensity sessions that maximize calorie burn." },
-  { icon: Trophy, title: "Muscle Gain", desc: "Hypertrophy plans backed by science and nutrition." },
-  { icon: Timer, title: "Group Classes", desc: "120+ classes weekly — HIIT, yoga, spin, and more." },
+// Local image imports from src/assets/images/services/
+import zumbaImg from "@/assets/images/services/zumba.webp";
+import hiitImg from "@/assets/images/services/hiit.webp";
+import strengthImg from "@/assets/images/services/strength.webp";
+import ladiesImg from "@/assets/images/services/ladies.webp";
+import powerliftingImg from "@/assets/images/services/powerlifting.webp";
+import ptImg from "@/assets/images/services/pt.webp";
+
+interface ServiceItem {
+  title: string;
+  desc: string;
+  img: string;
+  icon: React.ComponentType<{ className?: string }>;
+  badge?: string;
+}
+
+const SERVICES: ServiceItem[] = [
+  {
+    title: "Zumba Classes",
+    desc: "Experience high-energy Zumba sessions that combine dance and fitness to improve stamina, coordination, and cardiovascular health.",
+    img: zumbaImg,
+    icon: Music
+  },
+  {
+    title: "HIIT Training",
+    desc: "Burn maximum calories in minimum time with scientifically designed HIIT workouts that improve endurance and athletic performance.",
+    img: hiitImg,
+    icon: Flame
+  },
+  {
+    title: "Strength Training",
+    desc: "Build muscle, improve strength, and enhance overall physical performance with structured strength development programs.",
+    img: strengthImg,
+    icon: Dumbbell
+  },
+  {
+    title: "Ladies Exclusive Training Zone",
+    desc: "Dedicated and comfortable training space designed exclusively for female members with specialized workout support.",
+    img: ladiesImg,
+    icon: Users,
+    badge: "Women Only Area"
+  },
+  {
+    title: "Powerlifting Arena",
+    desc: "Specialized area built for serious powerlifters featuring professional-grade racks, barbells, and deadlift platforms.",
+    img: powerliftingImg,
+    icon: Trophy,
+    badge: "Dedicated Powerlifting Zone"
+  },
+  {
+    title: "Personal Training (PT)",
+    desc: "Work one-on-one with certified fitness professionals who provide personalized coaching, motivation, and expert guidance.",
+    img: ptImg,
+    icon: UserCheck,
+    badge: "Certified Trainers"
+  }
 ];
 
-// smooth animation
+const stagger = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.06
+    }
+  }
+};
+
 const fadeUp = {
-  hidden: { opacity: 0, y: 30 },
-  show: (i: number) => ({
+  hidden: { opacity: 0, y: 25 },
+  show: {
     opacity: 1,
     y: 0,
     transition: {
-      delay: i * 0.1,
       duration: 0.5,
-      ease: "easeOut",
-    },
-  }),
+      ease: "easeOut" as const
+    }
+  }
 };
 
 export function ServicesPreview() {
   return (
-    <section className="bg-white py-14 md:py-20 overflow-hidden">
-
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 overflow-hidden">
-
+    <section className="bg-background py-16 md:py-20 relative overflow-hidden border-t border-border">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        
         {/* HEADER */}
-        <div className="mx-auto max-w-xl text-center">
+        <div className="mx-auto max-w-2xl text-center mb-12">
           <span className="text-xs font-semibold uppercase tracking-[0.2em] text-primary">
             What we offer
           </span>
-
-          <h2 className="mt-2 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-            Programs designed to <span className="text-primary">unlock</span> your potential
+          <h2 className="mt-3 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
+            Premium Fitness Services & <span className="text-primary-gradient bg-clip-text text-transparent">Experiences</span>
           </h2>
-
-          <p className="mt-3 text-muted-foreground text-sm sm:text-base">
-            Every program is crafted by expert coaches with one goal in mind — your results.
+          <p className="mt-4 text-muted-foreground text-sm sm:text-base">
+            Explore our featured premium services built to deliver real results and performance.
           </p>
         </div>
 
-        {/* CARDS */}
-        <div className="mt-10 w-full overflow-hidden">
-          <div className="grid w-full max-w-full gap-6 sm:grid-cols-2 lg:grid-cols-3">
-
-            {SERVICES.map((s, i) => (
-              <motion.div
+        {/* CARDS GRID */}
+        <motion.div
+          variants={stagger}
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: false, margin: "-60px" }} // Replays animation on scroll
+          className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3"
+        >
+          {SERVICES.map((s) => {
+            const Icon = s.icon;
+            return (
+              <motion.article
                 key={s.title}
-                custom={i}
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: false, margin: "-60px" }}
                 variants={fadeUp}
-                className="group relative w-full min-w-0 overflow-hidden rounded-2xl border border-border bg-white p-6 transition-all duration-300 ease-out hover:-translate-y-2 hover:shadow-elegant hover:bg-primary"
+                className="card-tilt group flex flex-col justify-between overflow-hidden rounded-2xl border border-border bg-card shadow-soft hover:border-primary/20 transition-all duration-300"
               >
-                
-                {/* ICON */}
-                <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-primary/10 text-primary transition-all duration-300 group-hover:bg-white group-hover:text-primary">
-                  <s.icon className="h-6 w-6 transition-all duration-300" />
+                {/* Image Section */}
+                <div className="aspect-[16/10] overflow-hidden relative bg-black/10">
+                  <img
+                    src={s.img}
+                    alt={s.title}
+                    loading="lazy"
+                    decoding="async"
+                    className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  />
+                  {s.badge && (
+                    <span className="absolute top-3 left-3 rounded-full bg-primary-gradient px-3 py-1 text-[9px] font-bold uppercase tracking-wider text-white shadow-soft">
+                      {s.badge}
+                    </span>
+                  )}
                 </div>
 
-                {/* TITLE */}
-                <h3 className="mt-4 text-lg font-semibold text-foreground transition-colors duration-300 group-hover:text-white">
-                  {s.title}
-                </h3>
+                {/* Content Section */}
+                <div className="flex-grow p-6 flex flex-col justify-between">
+                  <div>
+                    {/* Header: Title and Icon */}
+                    <div className="flex items-start justify-between gap-4 mb-3">
+                      <h3 className="text-base font-bold text-foreground transition-colors duration-300 group-hover:text-primary">
+                        {s.title}
+                      </h3>
+                      {/* Icon container - kept clean & premium with high contrast */}
+                      <div className="card-icon-container flex-shrink-0 flex h-9 w-9 items-center justify-center rounded-xl shadow-soft">
+                        <Icon className="h-4.5 w-4.5" />
+                      </div>
+                    </div>
 
-                {/* DESC */}
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground transition-colors duration-300 group-hover:text-white/90">
-                  {s.desc}
-                </p>
+                    {/* Description */}
+                    <p className="text-xs sm:text-sm leading-relaxed text-muted-foreground">
+                      {s.desc}
+                    </p>
+                  </div>
 
-                {/* LINK */}
-                <Link
-                  to="/services"
-                  className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-primary transition-all duration-300 group-hover:text-white group-hover:translate-x-1"
-                >
-                  Learn more →
-                </Link>
+                  {/* Divider and link */}
+                  <div className="mt-5 flex items-center justify-between pt-3 border-t border-border group-hover:border-primary/20 transition-colors duration-300">
+                    <Link
+                      to="/services"
+                      className="text-xs font-bold text-muted-foreground group-hover:text-primary transition-all duration-300 flex items-center gap-1 group-hover:translate-x-0.5"
+                    >
+                      Learn more
+                      <ChevronRight className="h-3.5 w-3.5" />
+                    </Link>
+                  </div>
+                </div>
+              </motion.article>
+            );
+          })}
+        </motion.div>
 
-              </motion.div>
-            ))}
-
-          </div>
+        {/* Explore All Services button below cards */}
+        <div className="mt-12 text-center">
+          <Link
+            to="/services"
+            className="inline-flex h-12 items-center justify-center rounded-full bg-primary-gradient px-8 text-sm font-bold text-white shadow-glow hover:scale-[1.03] active:scale-95 transition-all cursor-pointer"
+          >
+            Explore All Services
+          </Link>
         </div>
 
       </div>

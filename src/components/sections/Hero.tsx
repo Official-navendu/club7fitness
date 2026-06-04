@@ -17,22 +17,29 @@ export function Hero() {
 
   const images = [gym1, gym2, gym3, gym4];
 
-  // Parallax
+  // Parallax optimized
   useEffect(() => {
     const el = imgRef.current;
     if (!el) return;
 
+    let requestID: number;
     const onScroll = () => {
-      const y = window.scrollY;
-      gsap.to(el, {
-        y: y * 0.08,
-        duration: 0.5,
-        ease: "power2.out",
+      requestID = requestAnimationFrame(() => {
+        const y = window.scrollY;
+        gsap.to(el, {
+          y: y * 0.08,
+          duration: 0.5,
+          ease: "power2.out",
+          overwrite: "auto",
+        });
       });
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      cancelAnimationFrame(requestID);
+    };
   }, []);
 
   // Auto change images
@@ -131,20 +138,30 @@ export function Hero() {
         >
           <div className="flex gap-4 w-full max-w-[650px] h-[420px]">
 
-            {/* BIG IMAGE */}
-            <motion.div
-              key={active}
-              initial={{ opacity: 0.6, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1.05 }}
-              transition={{ duration: 0.6 }}
-              className="flex-[2] overflow-hidden rounded-3xl border border-white/10 shadow-elegant"
-            >
-              <img
-                src={images[active]}
-                alt="main gym"
-                className="h-full w-full object-cover"
-              />
-            </motion.div>
+            {/* BIG IMAGE (FADE TRANSITION WRAPPER) */}
+            <div className="relative flex-[2] overflow-hidden rounded-3xl border border-white/10 shadow-elegant">
+              {images.map((img, i) => (
+                <motion.div
+                  key={i}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: i === active ? 1 : 0 }}
+                  transition={{ duration: 0.6 }}
+                  className="absolute inset-0 h-full w-full"
+                  style={{ zIndex: i === active ? 1 : 0 }}
+                >
+                  <img
+                    src={img}
+                    alt="main gym"
+                    className="h-full w-full object-cover"
+                    loading="eager"
+                    fetchPriority={i === 0 ? "high" : undefined}
+                    decoding="async"
+                    width={423}
+                    height={420}
+                  />
+                </motion.div>
+              ))}
+            </div>
 
             {/* SIDE STACK */}
             <div className="flex flex-col gap-4 flex-1">
@@ -162,6 +179,10 @@ export function Hero() {
                       src={img}
                       alt="gym"
                       className="h-full w-full object-cover"
+                      loading="eager"
+                      decoding="async"
+                      width={211}
+                      height={129}
                     />
                   </motion.div>
                 );

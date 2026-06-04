@@ -65,6 +65,10 @@ export function Trainers() {
                 <img
                   src={t.img}
                   alt={t.name}
+                  loading="lazy"
+                  decoding="async"
+                  width={280}
+                  height={350}
                   className="h-full w-full object-cover transition duration-700 group-hover:scale-110"
                 />
 

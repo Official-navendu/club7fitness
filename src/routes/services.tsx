@@ -1,8 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { PageHero } from "@/components/sections/PageHero";
-import { Equipment } from "@/components/sections/Equipment";
-import { Programs } from "@/components/sections/Programs";
-import { CTA } from "@/components/sections/CTA";
+import { ServicesPage } from "@/pages/Services";
 
 export const Route = createFileRoute("/services")({
   head: () => ({
@@ -23,30 +20,3 @@ export const Route = createFileRoute("/services")({
   component: ServicesPage,
 });
 
-function ServicesPage() {
-  return (
-    <>
-      {/* ================= HERO ================= */}
-      <PageHero
-        eyebrow="Services"
-        title={
-          <>
-            Premium equipment.
-            <br />
-            <span className="text-primary">Programs that work.</span>
-          </>
-        }
-        subtitle="From cardio to strength, every machine and every program is curated for performance."
-      />
-
-      {/* ================= EQUIPMENT ================= */}
-      <Equipment />
-
-      {/* ================= PROGRAMS ================= */}
-      <Programs />
-
-      {/* ================= CTA ================= */}
-      <CTA />
-    </>
-  );
-}

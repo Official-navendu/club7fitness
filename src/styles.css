@@ -172,21 +172,65 @@
 
 
 
-/* ===== ANIMATED HERO BACKGROUND ===== */
-@keyframes gradientMove {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+/* ===== ANIMATED HERO BACKGROUND (GPU ACCELERATED) ===== */
+@keyframes gradientMoveGPU {
+  0% { transform: translate3d(0, 0, 0) scale(1); }
+  50% { transform: translate3d(-4%, -4%, 0) scale(1.08); }
+  100% { transform: translate3d(0, 0, 0) scale(1); }
 }
 
 .bg-animated-gradient {
   background: linear-gradient(
-    270deg,
+    135deg,
     oklch(0.14 0.02 250),
     oklch(0.18 0.03 252),
     oklch(0.32 0.1 248),
     oklch(0.14 0.02 250)
   );
-  background-size: 400% 400%;
-  animation: gradientMove 12s ease infinite;
+  background-size: cover;
+  position: absolute;
+  inset: -12%;
+  animation: gradientMoveGPU 15s ease-in-out infinite;
+  will-change: transform;
+}
+
+/* ===== HIDE ELFSIGHT WIDGET BRANDING & LABELS ===== */
+[class*="eapps-link"],
+[class*="PoweredBy__Container"],
+[class*="WidgetTitle__Container"],
+a[href*="elfsight.com"],
+div[class*="elfsight-app"] > a,
+div[class*="elfsight-app"] > div > a {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* ===== GRADIENT TEXT UTILITY FIX ===== */
+.text-primary-gradient {
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+/* ===== CARD ICON HOVER AND CONTRAST FIXED UTILITY ===== */
+.card-icon-container {
+  color: var(--primary) !important;
+  background-color: oklch(from var(--primary) l c h / 0.1) !important;
+  transition: all 0.3s var(--transition-smooth);
+}
+.group:hover .card-icon-container {
+  background: var(--gradient-primary) !important;
+  color: #ffffff !important;
+}
+.group:hover .card-icon-container svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
 }
